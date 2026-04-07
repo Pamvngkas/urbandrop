@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="UrbanDrop — Toko fashion & lifestyle modern untuk anak muda Indonesia." />
+  <title>UrbanDrop — Fashion & Lifestyle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" />       <!-- RAKHA -->
+  <link rel="stylesheet" href="css/navbar.css" />     <!-- NOVIA -->
+  <link rel="stylesheet" href="css/hero.css" />       <!-- NAISYA -->
+  <link rel="stylesheet" href="css/catalog.css" />    <!-- RIMA -->
+  <link rel="stylesheet" href="css/cart.css" />       <!-- NAOMI -->
+  <link rel="stylesheet" href="css/footer.css" />     <!-- NOVIA -->
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       NAVBAR — NOVIA
+  ═══════════════════════════════════════ -->
+  <header class="navbar" id="navbar">
+    <div class="container navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        Urban<span>Drop</span>
+      </a>
+      <nav class="navbar__links" id="navLinks">
+        <a href="index.html" class="nav-link active">Beranda</a>
+        <a href="pages/catalog.html" class="nav-link">Katalog</a>
+        <a href="pages/about.html" class="nav-link">Tentang</a>
+        <a href="pages/contact.html" class="nav-link">Kontak</a>
+      </nav>
+      <div class="navbar__actions">
+        <button class="btn-icon search-btn" aria-label="Cari produk" id="searchToggle">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+        <button class="btn-icon cart-btn" aria-label="Keranjang" id="cartToggle">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <!-- Search Bar -->
+    <div class="search-bar" id="searchBar">
+      <div class="container">
+        <input type="text" id="searchInput" placeholder="Cari produk, kategori..." autocomplete="off" />
+        <button id="searchClose">✕</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html" class="mobile-nav__link" onclick="closeMobileNav()">Beranda</a>
+    <a href="pages/catalog.html" class="mobile-nav__link" onclick="closeMobileNav()">Katalog</a>
+    <a href="pages/about.html" class="mobile-nav__link" onclick="closeMobileNav()">Tentang</a>
+    <a href="pages/contact.html" class="mobile-nav__link" onclick="closeMobileNav()">Kontak</a>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════
+       HERO SECTION — NAISYA
+  ═══════════════════════════════════════ -->
+  <section class="hero" id="home">
+    <div class="hero__bg-shape hero__bg-shape--1"></div>
+    <div class="hero__bg-shape hero__bg-shape--2"></div>
+    <div class="container hero__inner">
+      <div class="hero__content" data-animate>
+        <span class="hero__label">New Arrival — Summer 2026</span>
+        <h1 class="hero__title">
+          Gaya Tanpa Batas,<br />
+          <em>Harga Terjangkau.</em>
+        </h1>
+        <p class="hero__subtitle">
+          Temukan koleksi fashion & lifestyle terkini untuk tampil percaya diri setiap hari. Pengiriman ke seluruh Indonesia.
+        </p>
+        <div class="hero__cta">
+          <a href="pages/catalog.html" class="btn btn--primary btn--lg">Belanja Sekarang</a>
+          <a href="#featured" class="btn btn--outline btn--lg">Lihat Koleksi</a>
+        </div>
+        <div class="hero__trust">
+          <div class="trust-item"><span class="trust-icon">🚚</span><span>Gratis ongkir &gt; Rp150rb</span></div>
+          <div class="trust-item"><span class="trust-icon">↩️</span><span>Return 7 hari</span></div>
+          <div class="trust-item"><span class="trust-icon">🔒</span><span>Pembayaran aman</span></div>
+        </div>
+      </div>
+      <div class="hero__visual" data-animate data-delay="0.15">
+        <div class="hero__img-frame">
+          <!-- Placeholder visual — ganti dengan gambar produk hero -->
+          <div class="hero__img-placeholder">
+            <svg viewBox="0 0 360 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="360" height="480" rx="24" fill="#F5F0EB"/>
+              <rect x="60" y="80" width="240" height="280" rx="16" fill="#E8E0D5"/>
+              <rect x="100" y="120" width="160" height="8" rx="4" fill="#C8BDB0"/>
+              <rect x="120" y="140" width="120" height="6" rx="3" fill="#D4C9BC"/>
+              <rect x="80" y="200" width="200" height="100" rx="12" fill="#C8BDB0" fill-opacity="0.5"/>
+              <text x="180" y="258" text-anchor="middle" fill="#8B7D6E" font-size="14" font-family="Plus Jakarta Sans">Hero Image</text>
+              <rect x="100" y="340" width="80" height="32" rx="16" fill="#1A1A2E"/>
+              <text x="140" y="361" text-anchor="middle" fill="white" font-size="12" font-family="Plus Jakarta Sans">Beli</text>
+              <rect x="196" y="348" width="64" height="16" rx="8" fill="#E8E0D5"/>
+              <text x="228" y="360" text-anchor="middle" fill="#8B7D6E" font-size="11" font-family="Plus Jakarta Sans">Rp299.000</text>
+              <circle cx="290" cy="100" r="40" fill="#FFD166" fill-opacity="0.3"/>
+              <circle cx="60" cy="380" r="30" fill="#06D6A0" fill-opacity="0.2"/>
+            </svg>
+          </div>
+          <div class="hero__floating-card hero__floating-card--1">
+            <span class="fc-emoji">🔥</span>
+            <div><strong>Trending</strong><br/><small>1.2rb+ terjual</small></div>
+          </div>
+          <div class="hero__floating-card hero__floating-card--2">
+            <span class="fc-emoji">⭐</span>
+            <div><strong>4.9/5</strong><br/><small>2.4rb ulasan</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Category pills -->
+    <div class="hero__categories container">
+      <a href="pages/catalog.html?cat=all" class="cat-pill cat-pill--active">Semua</a>
+      <a href="pages/catalog.html?cat=pakaian" class="cat-pill">Pakaian</a>
+      <a href="pages/catalog.html?cat=aksesoris" class="cat-pill">Aksesoris</a>
+      <a href="pages/catalog.html?cat=sepatu" class="cat-pill">Sepatu</a>
+      <a href="pages/catalog.html?cat=tas" class="cat-pill">Tas</a>
+      <a href="pages/catalog.html?cat=lifestyle" class="cat-pill">Lifestyle</a>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       FEATURED PRODUCTS — RIMA
+  ═══════════════════════════════════════ -->
+  <section class="section" id="featured">
+    <div class="container">
+      <div class="section-header" data-animate>
+        <div>
+          <p class="section-eyebrow">Pilihan Editor</p>
+          <h2 class="section-title">Produk Unggulan</h2>
+        </div>
+        <a href="pages/catalog.html" class="btn btn--ghost">Lihat Semua →</a>
+      </div>
+      <!-- Grid produk dirender oleh JS (RIMA: js/catalog.js) -->
+      <div class="products-grid" id="featuredGrid"></div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       BANNER PROMO — NAISYA
+  ═══════════════════════════════════════ -->
+  <section class="promo-banner" data-animate>
+    <div class="container promo-banner__inner">
+      <div class="promo-banner__text">
+        <span class="promo-banner__label">Limited Time</span>
+        <h2 class="promo-banner__title">Diskon hingga 50%<br/>untuk koleksi musim ini</h2>
+        <p class="promo-banner__sub">Gunakan kode: <strong>URBANDROP50</strong></p>
+      </div>
+      <a href="pages/catalog.html" class="btn btn--white btn--lg">Klaim Sekarang →</a>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       TESTIMONI — NAISYA
+  ═══════════════════════════════════════ -->
+  <section class="section" id="testimoni">
+    <div class="container">
+      <div class="section-header" data-animate>
+        <div>
+          <p class="section-eyebrow">Ulasan Pelanggan</p>
+          <h2 class="section-title">Mereka Sudah Belanja</h2>
+        </div>
+      </div>
+      <div class="testimonials-track" id="testiTrack">
+        <!-- Render by JS — js/testimonials.js (NAISYA) -->
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       FOOTER — NOVIA
+  ═══════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container footer__top">
+      <div class="footer__brand">
+        <a href="index.html" class="footer__logo">Urban<span>Drop</span></a>
+        <p class="footer__tagline">Fashion & lifestyle untuk anak muda Indonesia yang berani tampil beda.</p>
+        <div class="footer__socials">
+          <a href="#" class="social-link" aria-label="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" class="social-link" aria-label="TikTok">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+          </a>
+          <a href="#" class="social-link" aria-label="WhatsApp">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer__links-group">
+        <div class="footer__col">
+          <h4>Belanja</h4>
+          <a href="pages/catalog.html">Semua Produk</a>
+          <a href="pages/catalog.html?cat=pakaian">Pakaian</a>
+          <a href="pages/catalog.html?cat=aksesoris">Aksesoris</a>
+          <a href="pages/catalog.html?cat=sepatu">Sepatu</a>
+        </div>
+        <div class="footer__col">
+          <h4>Informasi</h4>
+          <a href="pages/about.html">Tentang Kami</a>
+          <a href="pages/contact.html">Hubungi Kami</a>
+          <a href="#">FAQ</a>
+          <a href="#">Blog</a>
+        </div>
+        <div class="footer__col">
+          <h4>Bantuan</h4>
+          <a href="#">Cara Pemesanan</a>
+          <a href="#">Pengiriman</a>
+          <a href="#">Pengembalian</a>
+          <a href="#">Kebijakan Privasi</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div class="container">
+        <p>© 2026 UrbanDrop. Dibuat dengan ❤️ oleh Tim 5.</p>
+        <div class="footer__payment">
+          <span>BCA</span><span>Mandiri</span><span>GoPay</span><span>OVO</span><span>QRIS</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════
+       CART SIDEBAR — NAOMI
+  ═══════════════════════════════════════ -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-sidebar__header">
+      <h3>Keranjang Belanja</h3>
+      <button class="cart-close" id="cartClose">✕</button>
+    </div>
+    <div class="cart-sidebar__body" id="cartBody">
+      <!-- Render by js/cart.js (NAOMI) -->
+    </div>
+    <div class="cart-sidebar__footer" id="cartFooter">
+      <!-- Render by js/cart.js (NAOMI) -->
+    </div>
+  </aside>
+
+
+  <!-- ═══════════════════════════════════════
+       TOAST NOTIFICATION — NAOMI
+  ═══════════════════════════════════════ -->
+  <div class="toast" id="toast"></div>
+
+
+  <!-- JS -->
+  <script src="js/data.js"></script>         <!-- RAKHA -->
+  <script src="js/utils.js"></script>        <!-- RAKHA -->
+  <script src="js/navbar.js"></script>       <!-- NOVIA -->
+  <script src="js/catalog.js"></script>      <!-- RIMA -->
+  <script src="js/cart.js"></script>         <!-- NAOMI -->
+  <script src="js/testimonials.js"></script> <!-- NAISYA -->
+  <script src="js/main.js"></script>         <!-- RAKHA -->
+</body>
+</html>
