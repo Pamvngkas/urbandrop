@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Katalog Produk — UrbanDrop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/navbar.css" />
+  <link rel="stylesheet" href="../css/catalog.css" />
+  <link rel="stylesheet" href="../css/cart.css" />
+  <link rel="stylesheet" href="../css/footer.css" />
+</head>
+<body>
+
+  <!-- NAVBAR (NOVIA) -->
+  <header class="navbar" id="navbar">
+    <div class="container navbar__inner">
+      <a href="../index.html" class="navbar__logo">Urban<span>Drop</span></a>
+      <nav class="navbar__links" id="navLinks">
+        <a href="../index.html" class="nav-link">Beranda</a>
+        <a href="catalog.html" class="nav-link active">Katalog</a>
+        <a href="about.html" class="nav-link">Tentang</a>
+        <a href="contact.html" class="nav-link">Kontak</a>
+      </nav>
+      <div class="navbar__actions">
+        <button class="btn-icon search-btn" id="searchToggle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+        <button class="btn-icon cart-btn" id="cartToggle">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="search-bar" id="searchBar">
+      <div class="container"><input type="text" id="searchInput" placeholder="Cari produk..." autocomplete="off" /><button id="searchClose">✕</button></div>
+    </div>
+  </header>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="../index.html" class="mobile-nav__link" onclick="closeMobileNav()">Beranda</a>
+    <a href="catalog.html" class="mobile-nav__link" onclick="closeMobileNav()">Katalog</a>
+    <a href="about.html" class="mobile-nav__link" onclick="closeMobileNav()">Tentang</a>
+    <a href="contact.html" class="mobile-nav__link" onclick="closeMobileNav()">Kontak</a>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       CATALOG PAGE — TUGAS RIMA
+       Commit: "feat: catalog page layout, filter sidebar, product grid"
+  ═══════════════════════════════════════ -->
+  <main>
+    <div class="container catalog-layout">
+
+      <!-- Filter Sidebar -->
+      <aside class="filter-sidebar">
+        <div class="filter-sidebar__title">
+          Filter
+          <button class="filter-reset" id="filterReset">Reset</button>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="filter-group">
+          <p class="filter-group__label">Kategori</p>
+          <div class="filter-options">
+            <label class="filter-option"><input type="checkbox" class="filter-cat" value="pakaian" /> Pakaian</label>
+            <label class="filter-option"><input type="checkbox" class="filter-cat" value="sepatu" /> Sepatu</label>
+            <label class="filter-option"><input type="checkbox" class="filter-cat" value="tas" /> Tas</label>
+            <label class="filter-option"><input type="checkbox" class="filter-cat" value="aksesoris" /> Aksesoris</label>
+            <label class="filter-option"><input type="checkbox" class="filter-cat" value="lifestyle" /> Lifestyle</label>
+          </div>
+        </div>
+
+        <!-- Price Filter -->
+        <div class="filter-group">
+          <p class="filter-group__label">Harga</p>
+          <div class="price-range">
+            <div class="price-range__inputs">
+              <input type="number" id="priceMin" placeholder="Min" min="0" />
+              <span class="price-range__sep">—</span>
+              <input type="number" id="priceMax" placeholder="Max" min="0" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Badge Filter -->
+        <div class="filter-group">
+          <p class="filter-group__label">Penawaran</p>
+          <div class="filter-options">
+            <label class="filter-option"><input type="checkbox" class="filter-badge" value="sale" /> Sedang Diskon</label>
+            <label class="filter-option"><input type="checkbox" class="filter-badge" value="new" /> Produk Baru</label>
+            <label class="filter-option"><input type="checkbox" class="filter-badge" value="hit" /> Bestseller</label>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Catalog Main -->
+      <div>
+        <p id="searchLabel" style="font-size:14px;color:var(--muted);margin-bottom:4px"></p>
+        <div class="catalog-toolbar">
+          <span class="catalog-toolbar__count"><strong id="productCount">12</strong> produk</span>
+          <div style="display:flex;gap:12px;align-items:center">
+            <div class="view-toggle">
+              <button class="view-btn active" data-view="grid" title="Grid view">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><rect x="0" y="0" width="7" height="7"/><rect x="9" y="0" width="7" height="7"/><rect x="0" y="9" width="7" height="7"/><rect x="9" y="9" width="7" height="7"/></svg>
+              </button>
+              <button class="view-btn" data-view="list" title="List view">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><rect x="0" y="0" width="16" height="4"/><rect x="0" y="6" width="16" height="4"/><rect x="0" y="12" width="16" height="4"/></svg>
+              </button>
+            </div>
+            <select class="catalog-sort" id="sortSelect">
+              <option value="default">Urutkan: Default</option>
+              <option value="price-asc">Harga: Terendah</option>
+              <option value="price-desc">Harga: Tertinggi</option>
+              <option value="rating">Rating Terbaik</option>
+              <option value="newest">Terbaru</option>
+              <option value="sale">Diskon Terbesar</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="products-grid" id="catalogGrid"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer (NOVIA) -->
+  <footer class="footer">
+    <div class="container footer__top">
+      <div class="footer__brand">
+        <a href="../index.html" class="footer__logo">Urban<span>Drop</span></a>
+        <p class="footer__tagline">Fashion & lifestyle untuk anak muda Indonesia yang berani tampil beda.</p>
+      </div>
+      <div class="footer__links-group">
+        <div class="footer__col"><h4>Belanja</h4><a href="catalog.html">Semua Produk</a></div>
+        <div class="footer__col"><h4>Info</h4><a href="about.html">Tentang</a><a href="contact.html">Kontak</a></div>
+        <div class="footer__col"><h4>Bantuan</h4><a href="#">FAQ</a><a href="#">Pengiriman</a></div>
+      </div>
+    </div>
+    <div class="footer__bottom"><div class="container"><p>© 2026 UrbanDrop. Dibuat dengan ❤️ oleh Tim 5.</p></div></div>
+  </footer>
+
+  <!-- Cart Sidebar (NAOMI) -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-sidebar__header"><h3>Keranjang</h3><button class="cart-close" id="cartClose">✕</button></div>
+    <div class="cart-sidebar__body" id="cartBody"></div>
+    <div class="cart-sidebar__footer" id="cartFooter"></div>
+  </aside>
+  <div class="toast" id="toast"></div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/navbar.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/catalog.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', initScrollAnimations);</script>
+</body>
+</html>
