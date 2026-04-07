@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tentang Kami — UrbanDrop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/navbar.css" />
+  <link rel="stylesheet" href="../css/footer.css" />
+  <link rel="stylesheet" href="../css/cart.css" />
+  <style>
+
+    /* Page Hero */
+    .about-hero {
+      padding-top: 140px;
+      padding-bottom: 80px;
+      background: var(--cream);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-hero::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,209,102,.18) 0%, transparent 70%);
+      top: -150px; right: -100px;
+      pointer-events: none;
+    }
+    .about-hero__label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      background: rgba(230,57,70,.08);
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 22px;
+    }
+    .about-hero__title {
+      font-family: var(--font-serif);
+      font-size: clamp(40px, 7vw, 72px);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--black);
+      margin-bottom: 20px;
+      max-width: 760px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .about-hero__title em { font-style: italic; color: var(--accent-2); }
+    .about-hero__sub {
+      font-size: 18px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    /* Stats */
+    .stats-strip {
+      background: var(--black);
+      padding: 56px 0;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 20px;
+      border-right: 1px solid rgba(255,255,255,.08);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-item__num {
+      display: block;
+      font-family: var(--font-serif);
+      font-size: clamp(36px, 5vw, 52px);
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-item__num em { font-style: italic; color: var(--gold); }
+    .stat-item__label {
+      font-size: 13px;
+      color: rgba(255,255,255,.45);
+      font-weight: 500;
+    }
+
+    /* Story Section */
+    .story-section { padding: var(--section-gap) 0; }
+    .story-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .story-visual {
+      background: var(--cream);
+      border-radius: var(--radius-lg);
+      aspect-ratio: 4/5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .story-visual__badge {
+      position: absolute;
+      bottom: 24px; left: 24px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      box-shadow: var(--shadow-md);
+    }
+    .story-visual__badge strong { display: block; font-size: 22px; font-weight: 800; }
+    .story-visual__badge span  { font-size: 12px; color: var(--muted); }
+    .story-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      margin-bottom: 14px;
+    }
+    .story-title {
+      font-family: var(--font-serif);
+      font-size: clamp(30px, 4vw, 44px);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--black);
+      margin-bottom: 20px;
+    }
+    .story-body {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    /* Values */
+    .values-section {
+      padding: var(--section-gap) 0;
+      background: var(--cream);
+    }
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .value-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 36px 30px;
+      transition: all var(--ease);
+    }
+    .value-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .value-card__icon {
+      font-size: 36px;
+      margin-bottom: 18px;
+      display: block;
+    }
+    .value-card__title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--black);
+    }
+    .value-card__desc {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* Team */
+    .team-section { padding: var(--section-gap) 0; }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .team-card {
+      text-align: center;
+    }
+    .team-card__avatar {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      margin-bottom: 16px;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 28px;
+      color: var(--white);
+    }
+    .team-card__name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 4px;
+    }
+    .team-card__role {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .team-card__github {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 8px;
+      transition: color var(--ease);
+    }
+    .team-card__github:hover { color: var(--black); }
+
+    /* CTA Strip */
+    .about-cta {
+      background: var(--black);
+      padding: 80px 0;
+      text-align: center;
+    }
+    .about-cta h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    .about-cta p {
+      font-size: 16px;
+      color: rgba(255,255,255,.5);
+      margin-bottom: 36px;
+    }
+
+    @media (max-width: 960px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-item:nth-child(2) { border-right: none; }
+      .story-layout { grid-template-columns: 1fr; gap: 40px; }
+      .story-visual { max-width: 400px; margin: 0 auto; }
+      .values-grid { grid-template-columns: repeat(2, 1fr); }
+      .team-grid   { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .values-grid { grid-template-columns: 1fr; }
+      .team-grid   { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR (NOVIA) -->
+  <header class="navbar" id="navbar">
+    <div class="container navbar__inner">
+      <a href="../index.html" class="navbar__logo">Urban<span>Drop</span></a>
+      <nav class="navbar__links" id="navLinks">
+        <a href="../index.html" class="nav-link">Beranda</a>
+        <a href="catalog.html" class="nav-link">Katalog</a>
+        <a href="about.html" class="nav-link active">Tentang</a>
+        <a href="contact.html" class="nav-link">Kontak</a>
+      </nav>
+      <div class="navbar__actions">
+        <button class="btn-icon cart-btn" id="cartToggle">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="../index.html" class="mobile-nav__link" onclick="closeMobileNav()">Beranda</a>
+    <a href="catalog.html" class="mobile-nav__link" onclick="closeMobileNav()">Katalog</a>
+    <a href="about.html" class="mobile-nav__link" onclick="closeMobileNav()">Tentang</a>
+    <a href="contact.html" class="mobile-nav__link" onclick="closeMobileNav()">Kontak</a>
+  </div>
+
+  <!-- Hero -->
+  <section class="about-hero">
+    <div class="container">
+      <span class="about-hero__label">Tentang Kami</span>
+      <h1 class="about-hero__title">
+        Kami Percaya Gaya adalah<br/><em>Hak Semua Orang</em>
+      </h1>
+      <p class="about-hero__sub">
+        UrbanDrop hadir untuk membuktikan bahwa fashion berkualitas tidak harus mahal.
+        Kami hadir untuk kamu yang ingin tampil percaya diri setiap hari.
+      </p>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats-strip">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item" data-animate>
+          <span class="stat-item__num">50<em>+</em></span>
+          <span class="stat-item__label">Produk Tersedia</span>
+        </div>
+        <div class="stat-item" data-animate data-delay="0.1">
+          <span class="stat-item__num">10<em>rb+</em></span>
+          <span class="stat-item__label">Pelanggan Puas</span>
+        </div>
+        <div class="stat-item" data-animate data-delay="0.2">
+          <span class="stat-item__num">34<em></em></span>
+          <span class="stat-item__label">Provinsi Terjangkau</span>
+        </div>
+        <div class="stat-item" data-animate data-delay="0.3">
+          <span class="stat-item__num">4.8<em>★</em></span>
+          <span class="stat-item__label">Rating Rata-rata</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Story -->
+  <section class="story-section">
+    <div class="container">
+      <div class="story-layout">
+        <div class="story-visual" data-animate>
+          🏙️
+          <div class="story-visual__badge">
+            <strong>2024</strong>
+            <span>Tahun berdiri</span>
+          </div>
+        </div>
+        <div data-animate data-delay="0.15">
+          <p class="story-eyebrow">Kisah Kami</p>
+          <h2 class="story-title">Berawal dari Passion,<br/>Berkembang karena Kepercayaan</h2>
+          <p class="story-body">
+            UrbanDrop lahir dari keresahan anak muda yang ingin tampil stylish
+            tanpa harus menguras kantong. Kami mulai dari garasi kecil di Lampung
+            dengan hanya 5 produk, dan kini telah melayani ribuan pelanggan
+            dari Sabang sampai Merauke.
+          </p>
+          <p class="story-body">
+            Setiap produk yang kami hadirkan melewati proses kurasi ketat —
+            memastikan kualitas terbaik dengan harga yang tetap terjangkau.
+            Karena kami percaya, gaya bukan tentang merek, tapi tentang
+            kepercayaan diri.
+          </p>
+          <a href="catalog.html" class="btn btn--primary">Jelajahi Koleksi →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="values-section">
+    <div class="container">
+      <div class="section-header" data-animate>
+        <div>
+          <p class="section-eyebrow">Nilai Kami</p>
+          <h2 class="section-title">Yang Kami Pegang Teguh</h2>
+        </div>
+      </div>
+      <div class="values-grid">
+        <div class="value-card" data-animate data-delay="0.1">
+          <span class="value-card__icon">🎯</span>
+          <h3 class="value-card__title">Kualitas Tanpa Kompromi</h3>
+          <p class="value-card__desc">Setiap produk melewati quality check ketat sebelum sampai ke tanganmu. Tidak ada produk cacat yang lolos.</p>
+        </div>
+        <div class="value-card" data-animate data-delay="0.2">
+          <span class="value-card__icon">💸</span>
+          <h3 class="value-card__title">Harga Selalu Jujur</h3>
+          <p class="value-card__desc">Kami tidak pernah mark-up berlebihan. Harga yang kamu lihat adalah harga terbaik yang bisa kami berikan.</p>
+        </div>
+        <div class="value-card" data-animate data-delay="0.3">
+          <span class="value-card__icon">🌿</span>
+          <h3 class="value-card__title">Ramah Lingkungan</h3>
+          <p class="value-card__desc">Packaging kami menggunakan bahan daur ulang. Kami berkomitmen mengurangi jejak karbon di setiap pengiriman.</p>
+        </div>
+        <div class="value-card" data-animate data-delay="0.1">
+          <span class="value-card__icon">🤝</span>
+          <h3 class="value-card__title">Mendukung Lokal</h3>
+          <p class="value-card__desc">70% produk kami dibuat oleh pengrajin dan UMKM lokal Indonesia. Belanja di sini berarti mendukung mereka.</p>
+        </div>
+        <div class="value-card" data-animate data-delay="0.2">
+          <span class="value-card__icon">⚡</span>
+          <h3 class="value-card__title">Pengiriman Cepat</h3>
+          <p class="value-card__desc">Order sebelum jam 15.00 WIB diproses dan dikirim hari yang sama. Kami tahu kamu tidak sabar menunggu.</p>
+        </div>
+        <div class="value-card" data-animate data-delay="0.3">
+          <span class="value-card__icon">💬</span>
+          <h3 class="value-card__title">Customer First</h3>
+          <p class="value-card__desc">Tim CS kami siap 7 hari seminggu via WhatsApp. Keluhan kamu adalah prioritas, bukan gangguan.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="team-section">
+    <div class="container">
+      <div class="section-header" data-animate>
+        <div>
+          <p class="section-eyebrow">Tim Kami</p>
+          <h2 class="section-title">Orang-orang di Balik UrbanDrop</h2>
+        </div>
+      </div>
+      <div class="team-grid">
+        <div class="team-card" data-animate data-delay="0.1">
+          <div class="team-card__avatar" style="background:#1A1A2E">RU</div>
+          <p class="team-card__name">Rakha Ukta</p>
+          <p class="team-card__role">Project Manager &amp; Lead Dev</p>
+          <a href="https://github.com" class="team-card__github" target="_blank">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            @rakha
+          </a>
+        </div>
+        <div class="team-card" data-animate data-delay="0.15">
+          <div class="team-card__avatar" style="background:#E63946">NO</div>
+          <p class="team-card__name">Novia</p>
+          <p class="team-card__role">Frontend — Navbar &amp; Footer</p>
+          <a href="https://github.com" class="team-card__github" target="_blank">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            @novia
+          </a>
+        </div>
+        <div class="team-card" data-animate data-delay="0.2">
+          <div class="team-card__avatar" style="background:#FFD166;color:#1A1A2E">NA</div>
+          <p class="team-card__name">Naisya</p>
+          <p class="team-card__role">Frontend — Hero &amp; Testimoni</p>
+          <a href="https://github.com" class="team-card__github" target="_blank">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            @naisya
+          </a>
+        </div>
+        <div class="team-card" data-animate data-delay="0.25">
+          <div class="team-card__avatar" style="background:#06D6A0;color:#1A1A2E">RI</div>
+          <p class="team-card__name">Rima</p>
+          <p class="team-card__role">Frontend — Katalog &amp; Produk</p>
+          <a href="https://github.com" class="team-card__github" target="_blank">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            @rima
+          </a>
+        </div>
+        <div class="team-card" data-animate data-delay="0.3">
+          <div class="team-card__avatar" style="background:#8B5CF6">NM</div>
+          <p class="team-card__name">Naomi</p>
+          <p class="team-card__role">Frontend — Cart &amp; Checkout</p>
+          <a href="https://github.com" class="team-card__github" target="_blank">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            @naomi
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="about-cta">
+    <div class="container">
+      <h2>Siap Tampil Percaya Diri?</h2>
+      <p>Jelajahi ribuan produk pilihan kami dan temukan gaya terbaikmu hari ini.</p>
+      <a href="catalog.html" class="btn btn--white btn--lg">Mulai Belanja →</a>
+    </div>
+  </section>
+
+  <!-- Footer (NOVIA) -->
+  <footer class="footer">
+    <div class="container footer__top">
+      <div class="footer__brand">
+        <a href="../index.html" class="footer__logo">Urban<span>Drop</span></a>
+        <p class="footer__tagline">Fashion & lifestyle untuk anak muda Indonesia yang berani tampil beda.</p>
+      </div>
+      <div class="footer__links-group">
+        <div class="footer__col"><h4>Belanja</h4><a href="catalog.html">Semua Produk</a></div>
+        <div class="footer__col"><h4>Info</h4><a href="about.html">Tentang</a><a href="contact.html">Kontak</a></div>
+        <div class="footer__col"><h4>Bantuan</h4><a href="#">FAQ</a></div>
+      </div>
+    </div>
+    <div class="footer__bottom"><div class="container"><p>© 2026 UrbanDrop. Dibuat dengan ❤️ oleh Tim 5.</p></div></div>
+  </footer>
+
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-sidebar__header"><h3>Keranjang</h3><button class="cart-close" id="cartClose">✕</button></div>
+    <div class="cart-sidebar__body" id="cartBody"></div>
+    <div class="cart-sidebar__footer" id="cartFooter"></div>
+  </aside>
+  <div class="toast" id="toast"></div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/navbar.js"></script>
+  <script src="../js/cart.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', initScrollAnimations);</script>
+</body>
+</html>
