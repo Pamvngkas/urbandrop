@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout — UrbanDrop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/cart.css" />
+  </head>
+  <body>
+    <!-- Minimal Navbar -->
+    <header
+      class="navbar"
+      id="navbar"
+      style="
+        position: relative;
+        backdrop-filter: none;
+        border-bottom: 1px solid var(--border);
+        background: var(--white);
+      "
+    >
+      <div class="container navbar__inner">
+        <a href="../index.html" class="navbar__logo">Urban<span>Drop</span></a>
+        <p style="font-size: 13px; color: var(--muted); margin-left: auto">
+          Pembayaran Aman 🔒
+        </p>
+      </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════
+       CHECKOUT PAGE — TUGAS NAOMI
+       Commit: "feat: checkout form, order summary, payment, success page"
+  ═══════════════════════════════════════ -->
+    <main>
+      <!-- Step Normal: Form Checkout -->
+      <div class="checkout-page container" id="checkoutView">
+        <h1>Checkout</h1>
+
+        <div class="checkout-layout">
+          <!-- LEFT: Form -->
+          <div>
+            <!-- Section Pengiriman -->
+            <div class="checkout-section">
+              <h2>Informasi Pengiriman</h2>
+              <div class="form-grid">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="firstName">Nama Depan *</label>
+                    <input type="text" id="firstName" placeholder="Rakha" />
+                    <span class="field-error" id="err-firstName"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="lastName">Nama Belakang *</label>
+                    <input type="text" id="lastName" placeholder="Ukta" />
+                    <span class="field-error" id="err-lastName"></span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email *</label>
+                  <input type="email" id="email" placeholder="kamu@email.com" />
+                  <span class="field-error" id="err-email"></span>
+                </div>
+                <div class="form-group">
+                  <label for="phone">No. WhatsApp *</label>
+                  <input type="tel" id="phone" placeholder="08xxxxxxxxxx" />
+                  <span class="field-error" id="err-phone"></span>
+                </div>
+                <div class="form-group">
+                  <label for="address">Alamat Lengkap *</label>
+                  <input
+                    type="text"
+                    id="address"
+                    placeholder="Jl. Contoh No. 123, Kelurahan, Kecamatan"
+                  />
+                  <span class="field-error" id="err-address"></span>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="city">Kota *</label>
+                    <input type="text" id="city" placeholder="Bandar Lampung" />
+                    <span class="field-error" id="err-city"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="postal">Kode Pos *</label>
+                    <input type="text" id="postal" placeholder="35000" />
+                    <span class="field-error" id="err-postal"></span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="province">Provinsi *</label>
+                  <select id="province">
+                    <option value="">Pilih Provinsi...</option>
+                    <option>Lampung</option>
+                    <option>DKI Jakarta</option>
+                    <option>Jawa Barat</option>
+                    <option>Jawa Tengah</option>
+                    <option>Jawa Timur</option>
+                    <option>Banten</option>
+                    <option>Sumatera Utara</option>
+                    <option>Sumatera Selatan</option>
+                    <option>Kalimantan Barat</option>
+                    <option>Sulawesi Selatan</option>
+                    <option>Bali</option>
+                    <option>Lainnya</option>
+                  </select>
+                  <span class="field-error" id="err-province"></span>
+                </div>
+                <div class="form-group">
+                  <label for="notes">Catatan (opsional)</label>
+                  <input
+                    type="text"
+                    id="notes"
+                    placeholder="Contoh: Titip ke satpam jika tidak ada di rumah"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Section Metode Bayar -->
+            <div class="checkout-section">
+              <h2>Metode Pembayaran</h2>
+              <div class="payment-options" id="paymentOptions">
+                <label class="payment-option selected">
+                  <input type="radio" name="payment" value="transfer" checked />
+                  <span class="payment-option__icon">🏦</span>
+                  <div>
+                    <p class="payment-option__name">Transfer Bank</p>
+                    <p class="payment-option__sub">BCA, Mandiri, BNI, BRI</p>
+                  </div>
+                </label>
+                <label class="payment-option">
+                  <input type="radio" name="payment" value="gopay" />
+                  <span class="payment-option__icon">💚</span>
+                  <div>
+                    <p class="payment-option__name">GoPay / OVO / DANA</p>
+                    <p class="payment-option__sub">E-wallet populer</p>
+                  </div>
+                </label>
+                <label class="payment-option">
+                  <input type="radio" name="payment" value="qris" />
+                  <span class="payment-option__icon">📱</span>
+                  <div>
+                    <p class="payment-option__name">QRIS</p>
+                    <p class="payment-option__sub">
+                      Scan dan bayar dari semua e-wallet
+                    </p>
+                  </div>
+                </label>
+                <label class="payment-option">
+                  <input type="radio" name="payment" value="cod" />
+                  <span class="payment-option__icon">💵</span>
+                  <div>
+                    <p class="payment-option__name">Bayar di Tempat (COD)</p>
+                    <p class="payment-option__sub">Hanya untuk area tertentu</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <button
+              class="btn btn--primary btn--full btn--lg"
+              id="placeOrderBtn"
+              style="margin-top: 8px"
+            >
+              Buat Pesanan →
+            </button>
+            <p
+              style="
+                font-size: 12px;
+                color: var(--muted);
+                text-align: center;
+                margin-top: 12px;
+              "
+            >
+              Dengan melanjutkan, kamu setuju dengan Syarat & Ketentuan
+              UrbanDrop.
+            </p>
+          </div>
+
+          <!-- RIGHT: Order Summary -->
+          <div class="order-summary">
+            <h2>Ringkasan Pesanan</h2>
+            <div id="orderItemsList"></div>
+            <div class="order-totals" id="orderTotals"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step Sukses -->
+      <div
+        class="checkout-success container"
+        id="successView"
+        style="display: none"
+      >
+        <div class="checkout-success__icon">🎉</div>
+        <h2>Pesanan Berhasil!</h2>
+        <p>
+          Terima kasih sudah belanja di UrbanDrop.<br />Pesananmu sedang kami
+          proses.
+        </p>
+        <div class="order-id" id="orderIdDisplay"></div>
+        <div
+          style="
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+          "
+        >
+          <a href="../index.html" class="btn btn--outline btn--lg"
+            >Kembali ke Beranda</a
+          >
+          <a href="catalog.html" class="btn btn--primary btn--lg"
+            >Belanja Lagi</a
+          >
+        </div>
+      </div>
+    </main>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="../js/data.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/cart.js"></script>
+
+    <!-- ═══ CHECKOUT LOGIC — NAOMI ═══ -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Render order summary
+        renderOrderSummary();
+
+        // Payment option highlight
+        document
+          .querySelectorAll('.payment-option input[type="radio"]')
+          .forEach((radio) => {
+            radio.addEventListener("change", () => {
+              document
+                .querySelectorAll(".payment-option")
+                .forEach((opt) => opt.classList.remove("selected"));
+              radio.closest(".payment-option").classList.add("selected");
+            });
+          });
+
+        // Place order
+        document
+          .getElementById("placeOrderBtn")
+          .addEventListener("click", submitOrder);
+      });
+
+      function renderOrderSummary() {
+        const listEl = document.getElementById("orderItemsList");
+        const totalsEl = document.getElementById("orderTotals");
+        const cartData = getFromStorage("ud_cart", []);
+        const coupon = getFromStorage("ud_coupon", null);
+
+        if (!listEl) return;
+
+        if (cartData.length === 0) {
+          listEl.innerHTML =
+            '<p style="color:var(--muted);font-size:14px">Keranjang kosong. <a href="catalog.html">Kembali belanja</a></p>';
+          return;
+        }
+
+        listEl.innerHTML = cartData
+          .map(
+            (item) => `
+      <div class="order-item-mini">
+        <div class="order-item-mini__img">${item.emoji}</div>
+        <div style="flex:1;min-width:0">
+          <p class="order-item-mini__name">${item.name}</p>
+          <p class="order-item-mini__variant">Ukuran: ${item.size} × ${item.qty}</p>
+          <p class="order-item-mini__price">${formatRupiah(item.price * item.qty)}</p>
+        </div>
+      </div>
+    `,
+          )
+          .join("");
+
+        const subtotal = cartData.reduce((s, i) => s + i.price * i.qty, 0);
+        const shipping = subtotal >= 150000 ? 0 : 25000;
+        const discount = coupon ? Math.round(subtotal * coupon.discount) : 0;
+        const total = subtotal + shipping - discount;
+
+        totalsEl.innerHTML = `
+      <div class="order-total-row"><span class="label">Subtotal</span><span>${formatRupiah(subtotal)}</span></div>
+      <div class="order-total-row"><span class="label">Ongkos kirim</span><span>${shipping === 0 ? '<span style="color:var(--green);font-weight:600">GRATIS</span>' : formatRupiah(shipping)}</span></div>
+      ${discount > 0 ? `<div class="order-total-row"><span class="label">Diskon (${coupon.code})</span><span style="color:var(--accent-2)">-${formatRupiah(discount)}</span></div>` : ""}
+      <div class="order-total-row grand"><span class="label">Total</span><strong>${formatRupiah(total)}</strong></div>
+    `;
+      }
+
+      /* ── Form Validation ── */
+      const REQUIRED_FIELDS = [
+        { id: "firstName", label: "Nama depan" },
+        { id: "lastName", label: "Nama belakang" },
+        { id: "email", label: "Email" },
+        { id: "phone", label: "No. WhatsApp" },
+        { id: "address", label: "Alamat" },
+        { id: "city", label: "Kota" },
+        { id: "postal", label: "Kode pos" },
+        { id: "province", label: "Provinsi" },
+      ];
+
+      function validateForm() {
+        let valid = true;
+        REQUIRED_FIELDS.forEach(({ id, label }) => {
+          const el = document.getElementById(id);
+          const err = document.getElementById("err-" + id);
+          if (!el) return;
+          if (!el.value.trim()) {
+            if (err) err.textContent = `${label} wajib diisi`;
+            el.classList.add("error");
+            valid = false;
+          } else {
+            if (err) err.textContent = "";
+            el.classList.remove("error");
+          }
+        });
+        // Email format
+        const emailEl = document.getElementById("email");
+        const emailErr = document.getElementById("err-email");
+        if (
+          emailEl &&
+          emailEl.value &&
+          !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)
+        ) {
+          if (emailErr) emailErr.textContent = "Format email tidak valid";
+          emailEl.classList.add("error");
+          valid = false;
+        }
+        return valid;
+      }
+
+      function submitOrder() {
+        if (!validateForm()) {
+          showToast("⚠️ Isi semua data yang wajib ya!");
+          document
+            .querySelector(".error")
+            ?.scrollIntoView({ behavior: "smooth", block: "center" });
+          return;
+        }
+
+        const cartData = getFromStorage("ud_cart", []);
+        if (cartData.length === 0) {
+          showToast("❌ Keranjang kamu kosong!");
+          return;
+        }
+
+        const orderId = generateOrderId();
+        const payment =
+          document.querySelector('input[name="payment"]:checked')?.value ||
+          "transfer";
+        const order = {
+          id: orderId,
+          items: cartData,
+          payment,
+          firstName: document.getElementById("firstName").value,
+          email: document.getElementById("email").value,
+          createdAt: new Date().toISOString(),
+        };
+        saveToStorage("ud_last_order", order);
+        clearCart();
+
+        // Show success
+        document.getElementById("checkoutView").style.display = "none";
+        document.getElementById("successView").style.display = "block";
+        document.getElementById("orderIdDisplay").textContent =
+          `ID Pesanan: ${orderId}`;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // Clear field error on input
+      document
+        .querySelectorAll(".checkout-section input, .checkout-section select")
+        .forEach((el) => {
+          el.addEventListener("input", () => {
+            el.classList.remove("error");
+            const err = document.getElementById("err-" + el.id);
+            if (err) err.textContent = "";
+          });
+        });
+    </script>
+  </body>
+</html>
