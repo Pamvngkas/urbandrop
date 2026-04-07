@@ -286,14 +286,35 @@
 .view-btn.active,
 .view-btn:hover { border-color: var(--black); color: var(--black); background: var(--cream); }
 
-/* Catalog Grid variants */
+/* Catalog Grid variants — List View */
+.catalog-grid--list {
+  grid-template-columns: 1fr;
+}
 .catalog-grid--list .product-card {
   flex-direction: row;
-  max-height: 180px;
+  max-height: none;
+  height: 160px;
 }
-.catalog-grid--list .product-card__img-wrap { width: 160px; aspect-ratio: auto; flex-shrink: 0; }
-.catalog-grid--list .product-card__actions { display: none; }
-.catalog-grid--list .product-card__info { justify-content: center; }
+.catalog-grid--list .product-card__img-wrap {
+  width: 160px;
+  flex-shrink: 0;
+  aspect-ratio: auto;
+}
+.catalog-grid--list .product-card:hover { transform: none; }
+.catalog-grid--list .product-card__actions {
+  position: static;
+  transform: none;
+  background: none;
+  padding: 0;
+  margin-top: 12px;
+}
+.catalog-grid--list .product-card:hover .product-card__actions { transform: none; }
+.catalog-grid--list .product-card__actions .btn { flex: 0; }
+.catalog-grid--list .product-card__wish { opacity: 1; }
+.catalog-grid--list .product-card__info {
+  justify-content: center;
+  padding: 20px 24px;
+}
 
 /* ── Responsive ── */
 @media (max-width: 1100px) {
