@@ -12,12 +12,7 @@
   <link rel="stylesheet" href="../css/cart.css" />
   <link rel="stylesheet" href="../css/footer.css" />
   <style>
-    /* ═══════════════════════════════════════
-       Product Detail Page Styles
-       TUGAS: RIMA
-       Commit: "feat: product detail page — gallery, info, related products"
-    ═══════════════════════════════════════ */
-
+   
     .product-detail {
       padding-top: 90px;
       padding-bottom: var(--section-gap);
@@ -53,13 +48,23 @@
       background: var(--cream);
       border-radius: var(--radius-lg);
       overflow: hidden;
+      position: relative;
+    }
+    .gallery__main img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .gallery__main .emoji-fallback {
+      position: absolute;
+      inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 120px;
-      position: relative;
     }
-    .gallery__main img { width: 100%; height: 100%; object-fit: cover; }
     .gallery__badge-tray {
       position: absolute;
       top: 16px; left: 16px;
@@ -590,7 +595,18 @@
     document.getElementById('productPrice').textContent   = formatRupiah(product.price);
     document.getElementById('productDesc').textContent    = product.description;
     document.getElementById('tabDesc').textContent        = product.description;
-    document.getElementById('mainEmoji').textContent      = product.emoji;
+    // Gallery main image
+    const galleryMain = document.getElementById('galleryMain');
+    const emojiEl = document.getElementById('mainEmoji');
+    emojiEl.className = 'emoji-fallback';
+    emojiEl.textContent = product.emoji;
+    if (product.image) {
+      const img = document.createElement('img');
+      img.src = product.image;
+      img.alt = product.name;
+      img.onerror = () => img.remove();
+      galleryMain.insertBefore(img, emojiEl);
+    }
 
     // Original price & discount
     if (product.discount > 0) {
@@ -619,16 +635,18 @@
       stockTxt.textContent = `Stok tersedia (${product.stock} buah)`;
     }
 
-    // Gallery thumbs (gunakan emoji untuk placeholder)
-    const thumbEmojis = [product.emoji, product.emoji, product.emoji, product.emoji];
-    document.getElementById('galleryThumbs').innerHTML = thumbEmojis.map((e, i) => `
-      <div class="gallery__thumb ${i === 0 ? 'active' : ''}" data-idx="${i}">${e}</div>
-    `).join('');
+    // Gallery thumbs
+    document.getElementById('galleryThumbs').innerHTML = [0,1,2,3].map(i =>
+      product.image
+        ? `<div class="gallery__thumb ${i===0?'active':''}" data-idx="${i}">
+             <img src="${product.image}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover" loading="lazy">
+           </div>`
+        : `<div class="gallery__thumb ${i===0?'active':''}" data-idx="${i}">${product.emoji}</div>`
+    ).join('');
     document.querySelectorAll('.gallery__thumb').forEach(th => {
       th.addEventListener('click', () => {
         document.querySelectorAll('.gallery__thumb').forEach(t => t.classList.remove('active'));
         th.classList.add('active');
-        document.getElementById('mainEmoji').textContent = th.textContent;
       });
     });
 
