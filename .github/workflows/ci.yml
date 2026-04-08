@@ -1,0 +1,347 @@
+# ═══════════════════════════════════════════════════════════════
+#  ci.yml — Continuous Integration
+#  UrbanDrop E-Commerce | Vanilla HTML/CSS/JS
+#
+#  Trigger  : Setiap push ke branch dev/* dan main
+#             Setiap Pull Request ke main
+#
+#  Jobs     : 1. lint-html   — validasi semua file HTML
+#             2. lint-css    — cek CSS syntax & best practice
+#             3. lint-js     — cek JS dengan ESLint
+#             4. size-check  — cek ukuran file (performa budget)
+#             5. ci-summary  — ringkasan hasil di GitHub UI
+#
+#  Anggota yang punya log di sini:
+#    Rakha  → push ke main
+#    Novia  → PR dari dev/novia
+#    Naisya → PR dari dev/naisya
+#    Rima   → PR dari dev/rima
+#    Naomi  → PR dari dev/naomi
+# ═══════════════════════════════════════════════════════════════
+
+name: CI — Lint & Validate
+
+on:
+  push:
+    branches:
+      - main
+      - 'dev/**'
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  # ─────────────────────────────────────
+  # JOB 1: Validasi HTML
+  # ─────────────────────────────────────
+  lint-html:
+    name: Validate HTML
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout kode
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install html-validate
+        run: npm install -g html-validate
+
+      - name: Buat konfigurasi html-validate
+        run: |
+          cat > .htmlvalidate.json << 'EOF'
+          {
+            "extends": ["html-validate:recommended"],
+            "rules": {
+              "no-trailing-whitespace": "off",
+              "void-style": "off",
+              "attr-quotes": "off"
+            }
+          }
+          EOF
+
+      - name: Validasi index.html
+        run: html-validate src/index.html || true
+
+      - name: Validasi semua halaman pages/
+        run: |
+          echo "=== Validating HTML pages ==="
+          for file in src/pages/*.html; do
+            echo "Checking: $file"
+            html-validate "$file" || true
+          done
+
+      - name: Selesai
+        run: echo "HTML validation done."
+
+
+  # ─────────────────────────────────────
+  # JOB 2: Lint CSS
+  # ─────────────────────────────────────
+  lint-css:
+    name: Lint CSS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout kode
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Stylelint
+        run: npm install -g stylelint stylelint-config-standard
+
+      - name: Buat konfigurasi Stylelint
+        run: |
+          cat > .stylelintrc.json << 'EOF'
+          {
+            "extends": ["stylelint-config-standard"],
+            "rules": {
+              "comment-empty-line-before": null,
+              "custom-property-empty-line-before": null,
+              "selector-class-pattern": null,
+              "no-descending-specificity": null,
+              "alpha-value-notation": null,
+              "color-function-notation": null,
+              "import-notation": null,
+              "declaration-block-no-redundant-longhand-properties": null,
+              "shorthand-property-no-redundant-values": null
+            }
+          }
+          EOF
+
+      - name: Lint semua file CSS
+        run: |
+          echo "=== CSS File Lint ==="
+          for file in src/css/*.css; do
+            size=$(wc -c < "$file")
+            kb=$(awk "BEGIN {printf \"%.1f\", $size/1024}")
+            echo "Linting $file (${kb}KB)"
+            stylelint "$file" --config .stylelintrc.json || true
+          done
+
+      - name: Laporan ukuran CSS
+        run: |
+          echo "=== CSS Size Report ==="
+          total=0
+          for file in src/css/*.css; do
+            size=$(wc -c < "$file")
+            kb=$(awk "BEGIN {printf \"%.1f\", $size/1024}")
+            echo "  $file : ${kb}KB"
+            total=$((total + size))
+          done
+          total_kb=$(awk "BEGIN {printf \"%.1f\", $total/1024}")
+          echo "  Total CSS : ${total_kb}KB"
+
+
+  # ─────────────────────────────────────
+  # JOB 3: Lint JavaScript
+  # ─────────────────────────────────────
+  lint-js:
+    name: Lint JavaScript
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout kode
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install ESLint
+        run: npm install -g eslint @eslint/js
+
+      - name: Buat konfigurasi ESLint
+        run: |
+          cat > eslint.config.mjs << 'EOF'
+          import js from "@eslint/js";
+
+          export default [
+            js.configs.recommended,
+            {
+              languageOptions: {
+                ecmaVersion: 2020,
+                globals: {
+                  window: "readonly",
+                  document: "readonly",
+                  console: "readonly",
+                  localStorage: "readonly",
+                  setTimeout: "readonly",
+                  clearTimeout: "readonly",
+                  setInterval: "readonly",
+                  clearInterval: "readonly",
+                  IntersectionObserver: "readonly",
+                  URLSearchParams: "readonly",
+                  fetch: "readonly",
+                  Date: "readonly",
+                  Math: "readonly",
+                  Promise: "readonly",
+                  JSON: "readonly",
+                  Error: "readonly",
+                  PRODUCTS: "readonly",
+                  TESTIMONIALS: "readonly",
+                  formatRupiah: "readonly",
+                  renderStars: "readonly",
+                  saveToStorage: "readonly",
+                  getFromStorage: "readonly",
+                  showToast: "readonly",
+                  debounce: "readonly",
+                  initScrollAnimations: "readonly",
+                  generateOrderId: "readonly",
+                  addToCart: "readonly",
+                  removeFromCart: "readonly",
+                  updateQty: "readonly",
+                  clearCart: "readonly",
+                  getCartSubtotal: "readonly",
+                  getCartTotal: "readonly",
+                  getCartCount: "readonly",
+                  updateCartBadge: "readonly",
+                  renderCartSidebar: "readonly",
+                  openCart: "readonly",
+                  closeCart: "readonly",
+                  cart: "readonly",
+                  renderProductGrid: "readonly",
+                  renderProductCard: "readonly",
+                  initCatalogPage: "readonly",
+                  closeMobileNav: "readonly",
+                  emailjs: "readonly"
+                }
+              },
+              rules: {
+                "no-unused-vars": "warn",
+                "no-undef": "error",
+                "no-console": "warn",
+                "eqeqeq": ["warn", "always"],
+                "no-var": "warn",
+                "prefer-const": "warn"
+              }
+            }
+          ];
+          EOF
+
+      - name: Lint semua file JS
+        run: |
+          echo "=== JS File Lint ==="
+          for file in src/js/*.js; do
+            size=$(wc -c < "$file")
+            kb=$(awk "BEGIN {printf \"%.1f\", $size/1024}")
+            echo "Linting $file (${kb}KB)"
+            eslint "$file" || true
+          done
+
+      - name: Laporan ukuran JS
+        run: |
+          echo "=== JS Size Report ==="
+          total=0
+          for file in src/js/*.js; do
+            size=$(wc -c < "$file")
+            kb=$(awk "BEGIN {printf \"%.1f\", $size/1024}")
+            echo "  $file : ${kb}KB"
+            total=$((total + size))
+          done
+          total_kb=$(awk "BEGIN {printf \"%.1f\", $total/1024}")
+          echo "  Total JS : ${total_kb}KB"
+
+
+  # ─────────────────────────────────────
+  # JOB 4: Size Budget Check
+  # ─────────────────────────────────────
+  size-check:
+    name: File Size Budget
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout kode
+        uses: actions/checkout@v4
+
+      - name: Cek ukuran semua file
+        run: |
+          echo "================================================"
+          echo "         UrbanDrop — File Size Report"
+          echo "================================================"
+
+          echo ""
+          echo "HTML Files:"
+          find src -name "*.html" | sort | while read f; do
+            size=$(wc -c < "$f")
+            kb=$(awk "BEGIN {printf \"%.1f\", $size/1024}")
+            if [ "$size" -gt 102400 ]; then
+              echo "  WARNING  $f : ${kb}KB  (> 100KB limit)"
+            else
+              echo "  OK       $f : ${kb}KB"
+            fi
+          done
+
+          echo ""
+          echo "CSS Files:"
+          find src/css -name "*.css" | sort | while read f; do
+            size=$(wc -c < "$f")
+            kb=$(awk "BEGIN {printf \"%.1f\", $size/1024}")
+            if [ "$size" -gt 51200 ]; then
+              echo "  WARNING  $f : ${kb}KB  (> 50KB limit)"
+            else
+              echo "  OK       $f : ${kb}KB"
+            fi
+          done
+
+          echo ""
+          echo "JS Files:"
+          find src/js -name "*.js" | sort | while read f; do
+            size=$(wc -c < "$f")
+            kb=$(awk "BEGIN {printf \"%.1f\", $size/1024}")
+            if [ "$size" -gt 51200 ]; then
+              echo "  WARNING  $f : ${kb}KB  (> 50KB limit)"
+            else
+              echo "  OK       $f : ${kb}KB"
+            fi
+          done
+
+          echo ""
+          echo "Kontribusi per Anggota:"
+          echo "  Rakha  : index.html, base.css, data.js, utils.js, main.js"
+          echo "  Novia  : navbar.css, footer.css, navbar.js, about.html"
+          echo "  Naisya : hero.css, testimonials.js, contact.html"
+          echo "  Rima   : catalog.css, catalog.js, catalog.html, product.html"
+          echo "  Naomi  : cart.css, cart.js, checkout.html"
+          echo ""
+          echo "Total files: $(find src -type f | wc -l)"
+
+
+  # ─────────────────────────────────────
+  # JOB 5: CI Summary
+  # ─────────────────────────────────────
+  ci-summary:
+    name: CI Summary
+    runs-on: ubuntu-latest
+    needs: [lint-html, lint-css, lint-js, size-check]
+    if: always()
+    steps:
+      - name: Tulis ringkasan ke GitHub Summary
+        run: |
+          {
+            echo "# UrbanDrop CI Report"
+            echo ""
+            echo "| Job | Status |"
+            echo "|-----|--------|"
+            echo "| HTML Validate | ${{ needs.lint-html.result }} |"
+            echo "| CSS Lint      | ${{ needs.lint-css.result }} |"
+            echo "| JS Lint       | ${{ needs.lint-js.result }} |"
+            echo "| Size Budget   | ${{ needs.size-check.result }} |"
+            echo ""
+            echo "**Branch:** \`${{ github.ref_name }}\`"
+            echo "**Actor:** ${{ github.actor }}"
+            echo "**Commit:** \`${{ github.sha }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
