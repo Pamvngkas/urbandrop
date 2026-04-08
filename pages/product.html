@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detail Produk — UrbanDrop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/navbar.css" />
+  <link rel="stylesheet" href="../css/catalog.css" />
+  <link rel="stylesheet" href="../css/cart.css" />
+  <link rel="stylesheet" href="../css/footer.css" />
+  <style>
+    /* ═══════════════════════════════════════
+       Product Detail Page Styles
+       TUGAS: RIMA
+       Commit: "feat: product detail page — gallery, info, related products"
+    ═══════════════════════════════════════ */
+
+    .product-detail {
+      padding-top: 90px;
+      padding-bottom: var(--section-gap);
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .breadcrumb a { transition: color var(--ease); }
+    .breadcrumb a:hover { color: var(--black); }
+    .breadcrumb__sep { color: var(--border); }
+    .breadcrumb__current { color: var(--black); font-weight: 500; }
+
+    /* Detail Layout */
+    .detail-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    /* Gallery */
+    .gallery { display: flex; flex-direction: column; gap: 14px; }
+    .gallery__main {
+      aspect-ratio: 4/5;
+      background: var(--cream);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 120px;
+      position: relative;
+    }
+    .gallery__main img { width: 100%; height: 100%; object-fit: cover; }
+    .gallery__badge-tray {
+      position: absolute;
+      top: 16px; left: 16px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .gallery__thumbs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .gallery__thumb {
+      aspect-ratio: 1;
+      background: var(--cream);
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color var(--ease);
+      overflow: hidden;
+    }
+    .gallery__thumb.active { border-color: var(--black); }
+    .gallery__thumb:hover  { border-color: var(--muted); }
+
+    /* Product Info */
+    .product-info { position: sticky; top: 90px; }
+    .product-info__cat {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      margin-bottom: 10px;
+    }
+    .product-info__name {
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 4vw, 38px);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--black);
+      margin-bottom: 16px;
+    }
+    .product-info__rating {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .product-info__rating .stars { color: var(--gold); font-size: 16px; }
+    .product-info__rating a {
+      color: var(--muted);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* Pricing */
+    .product-info__pricing {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .detail-price {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--black);
+    }
+    .detail-price--original {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--muted);
+      text-decoration: line-through;
+    }
+    .detail-discount-tag {
+      background: var(--accent-2);
+      color: var(--white);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+    }
+
+    .product-info__desc {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+
+    /* Color selector */
+    .selector-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .selector-label span { font-weight: 400; color: var(--muted); }
+    .color-selector {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .color-swatch {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid transparent;
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+      transition: all var(--ease);
+    }
+    .color-swatch.active,
+    .color-swatch:hover {
+      outline-color: var(--black);
+    }
+
+    /* Size selector */
+    .size-selector {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .size-btn {
+      min-width: 48px;
+      height: 44px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+      background: var(--white);
+      cursor: pointer;
+      padding: 0 12px;
+      transition: all var(--ease);
+    }
+    .size-btn:hover { border-color: var(--black); }
+    .size-btn.active {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+    .size-btn.out { opacity: .35; cursor: not-allowed; text-decoration: line-through; }
+
+    /* Qty + CTA */
+    .add-to-cart-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .qty-control--lg {
+      display: flex;
+      align-items: center;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .qty-control--lg .qty-btn {
+      width: 44px; height: 52px;
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--black);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: background var(--ease);
+    }
+    .qty-control--lg .qty-btn:hover { background: var(--cream); }
+    .qty-control--lg .qty-value {
+      min-width: 40px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    /* Wishlist row */
+    .wishlist-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--muted);
+      cursor: pointer;
+      margin-bottom: 28px;
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: var(--font-sans);
+      transition: color var(--ease);
+    }
+    .wishlist-row:hover,
+    .wishlist-row.active { color: var(--accent-2); }
+    .wishlist-row .heart { font-size: 18px; }
+
+    /* Trust badges */
+    .product-trust {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 20px;
+      background: var(--cream);
+      border-radius: var(--radius-md);
+      margin-bottom: 24px;
+    }
+    .product-trust__item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--black);
+    }
+    .product-trust__item .icon { font-size: 18px; }
+
+    /* Stock indicator */
+    .stock-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green);
+      margin-bottom: 20px;
+    }
+    .stock-indicator.low { color: var(--accent-2); }
+    .stock-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      flex-shrink: 0;
+    }
+    .stock-indicator.low .stock-dot { background: var(--accent-2); }
+
+    /* Related products section */
+    .related-section { padding: var(--section-gap) 0 0; }
+    .related-section .section-header { margin-bottom: 36px; }
+
+    /* Tabs (deskripsi, ulasan) */
+    .product-tabs {
+      padding: var(--section-gap) 0 0;
+    }
+    .tabs-nav {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+    }
+    .tab-btn {
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: all var(--ease);
+      font-family: var(--font-sans);
+    }
+    .tab-btn.active { color: var(--black); border-bottom-color: var(--black); }
+    .tab-btn:hover  { color: var(--black); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .detail-layout { grid-template-columns: 1fr; gap: 36px; }
+      .product-info  { position: static; }
+    }
+    @media (max-width: 480px) {
+      .gallery__thumbs { grid-template-columns: repeat(4,1fr); gap: 6px; }
+      .add-to-cart-row { flex-direction: column; }
+      .add-to-cart-row .btn { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR (NOVIA) -->
+  <header class="navbar" id="navbar">
+    <div class="container navbar__inner">
+      <a href="../index.html" class="navbar__logo">Urban<span>Drop</span></a>
+      <nav class="navbar__links" id="navLinks">
+        <a href="../index.html" class="nav-link">Beranda</a>
+        <a href="catalog.html" class="nav-link active">Katalog</a>
+        <a href="about.html" class="nav-link">Tentang</a>
+        <a href="contact.html" class="nav-link">Kontak</a>
+      </nav>
+      <div class="navbar__actions">
+        <button class="btn-icon" id="searchToggle">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+        <button class="btn-icon cart-btn" id="cartToggle">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="search-bar" id="searchBar">
+      <div class="container"><input type="text" id="searchInput" placeholder="Cari produk..." /><button id="searchClose">✕</button></div>
+    </div>
+  </header>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="../index.html" class="mobile-nav__link" onclick="closeMobileNav()">Beranda</a>
+    <a href="catalog.html" class="mobile-nav__link" onclick="closeMobileNav()">Katalog</a>
+    <a href="about.html" class="mobile-nav__link" onclick="closeMobileNav()">Tentang</a>
+    <a href="contact.html" class="mobile-nav__link" onclick="closeMobileNav()">Kontak</a>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PRODUCT DETAIL — TUGAS RIMA
+       Commit: "feat: product detail page — gallery, size picker, add to cart"
+  ═══════════════════════════════════════ -->
+  <main class="product-detail">
+    <div class="container">
+
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb">
+        <a href="../index.html">Beranda</a>
+        <span class="breadcrumb__sep">›</span>
+        <a href="catalog.html">Katalog</a>
+        <span class="breadcrumb__sep">›</span>
+        <span class="breadcrumb__current" id="breadcrumbName">Produk</span>
+      </nav>
+
+      <div class="detail-layout">
+
+        <!-- Kiri: Gallery -->
+        <div class="gallery">
+          <div class="gallery__main" id="galleryMain">
+            <div class="gallery__badge-tray" id="galleryBadges"></div>
+            <span id="mainEmoji" style="font-size:120px">👕</span>
+          </div>
+          <div class="gallery__thumbs" id="galleryThumbs">
+            <!-- Render by JS -->
+          </div>
+        </div>
+
+        <!-- Kanan: Info -->
+        <div class="product-info">
+          <p class="product-info__cat" id="productCat">Kategori</p>
+          <h1 class="product-info__name" id="productName">Nama Produk</h1>
+
+          <div class="product-info__rating">
+            <span class="stars" id="productStars">★★★★★</span>
+            <strong id="productRating">4.8</strong>
+            <a href="#ulasan" id="productReviews">(0 ulasan)</a>
+          </div>
+
+          <div class="product-info__pricing">
+            <span class="detail-price" id="productPrice">Rp0</span>
+            <span class="detail-price--original" id="productOriginal" style="display:none"></span>
+            <span class="detail-discount-tag" id="productDiscount" style="display:none"></span>
+          </div>
+
+          <p class="product-info__desc" id="productDesc">Deskripsi produk akan muncul di sini.</p>
+
+          <!-- Stok -->
+          <div class="stock-indicator" id="stockIndicator">
+            <div class="stock-dot"></div>
+            <span id="stockText">Stok tersedia</span>
+          </div>
+
+          <!-- Pilih Warna -->
+          <div id="colorSection">
+            <div class="selector-label">Warna <span id="selectedColor"></span></div>
+            <div class="color-selector" id="colorSelector"></div>
+          </div>
+
+          <!-- Pilih Ukuran -->
+          <div id="sizeSection">
+            <div class="selector-label">Ukuran <span id="selectedSize"></span></div>
+            <div class="size-selector" id="sizeSelector"></div>
+          </div>
+
+          <!-- Qty + Add to Cart -->
+          <div class="add-to-cart-row">
+            <div class="qty-control--lg">
+              <button class="qty-btn" id="qtyDec">−</button>
+              <span class="qty-value" id="detailQty">1</span>
+              <button class="qty-btn" id="qtyInc">+</button>
+            </div>
+            <button class="btn btn--primary btn--lg" id="addToCartBtn" style="flex:1">
+              + Tambah ke Keranjang
+            </button>
+          </div>
+
+          <!-- Wishlist -->
+          <button class="wishlist-row" id="wishlistBtn">
+            <span class="heart">♡</span>
+            <span id="wishlistText">Tambah ke Wishlist</span>
+          </button>
+
+          <!-- Trust -->
+          <div class="product-trust">
+            <div class="product-trust__item"><span class="icon">🚚</span> Gratis ongkir untuk pembelian &gt; Rp150.000</div>
+            <div class="product-trust__item"><span class="icon">↩️</span> Return mudah dalam 7 hari</div>
+            <div class="product-trust__item"><span class="icon">🔒</span> Transaksi aman &amp; terenkripsi</div>
+            <div class="product-trust__item"><span class="icon">✅</span> Produk 100% original</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs: Deskripsi & Ulasan -->
+      <div class="product-tabs">
+        <div class="tabs-nav">
+          <button class="tab-btn active" data-tab="deskripsi">Deskripsi</button>
+          <button class="tab-btn" data-tab="ulasan">Ulasan (<span id="reviewCount">0</span>)</button>
+          <button class="tab-btn" data-tab="pengiriman">Pengiriman</button>
+        </div>
+
+        <div class="tab-panel active" id="tab-deskripsi">
+          <div style="max-width:680px">
+            <p id="tabDesc" style="font-size:16px;line-height:1.8;color:var(--muted);margin-bottom:24px"></p>
+            <ul style="display:flex;flex-direction:column;gap:10px" id="tabFeatures"></ul>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tab-ulasan">
+          <div id="reviewsContainer">
+            <!-- Render by JS -->
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tab-pengiriman">
+          <div style="max-width:600px;display:flex;flex-direction:column;gap:18px">
+            <div style="padding:20px;background:var(--cream);border-radius:var(--radius-md)">
+              <p style="font-weight:700;margin-bottom:8px">🚚 Pengiriman Reguler (2-5 hari kerja)</p>
+              <p style="font-size:14px;color:var(--muted)">Ongkos kirim dihitung berdasarkan berat dan lokasi tujuan. Gratis ongkir untuk pembelian di atas Rp150.000.</p>
+            </div>
+            <div style="padding:20px;background:var(--cream);border-radius:var(--radius-md)">
+              <p style="font-weight:700;margin-bottom:8px">⚡ Pengiriman Express (1-2 hari kerja)</p>
+              <p style="font-size:14px;color:var(--muted)">Tersedia untuk area Jawa dan Bali. Tarif tetap Rp35.000 ke seluruh area tersebut.</p>
+            </div>
+            <div style="padding:20px;background:var(--cream);border-radius:var(--radius-md)">
+              <p style="font-weight:700;margin-bottom:8px">↩️ Kebijakan Return</p>
+              <p style="font-size:14px;color:var(--muted)">Produk dapat dikembalikan dalam 7 hari setelah diterima, selama dalam kondisi asli dengan label masih terpasang.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Related Products -->
+      <div class="related-section">
+        <div class="section-header">
+          <div>
+            <p class="section-eyebrow">Mungkin Kamu Suka</p>
+            <h2 class="section-title">Produk Terkait</h2>
+          </div>
+          <a href="catalog.html" class="btn btn--ghost">Lihat Semua →</a>
+        </div>
+        <div class="products-grid" id="relatedGrid"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer (NOVIA) -->
+  <footer class="footer" style="margin-top:var(--section-gap)">
+    <div class="container footer__top">
+      <div class="footer__brand">
+        <a href="../index.html" class="footer__logo">Urban<span>Drop</span></a>
+        <p class="footer__tagline">Fashion & lifestyle untuk anak muda Indonesia yang berani tampil beda.</p>
+      </div>
+      <div class="footer__links-group">
+        <div class="footer__col"><h4>Belanja</h4><a href="catalog.html">Semua Produk</a></div>
+        <div class="footer__col"><h4>Info</h4><a href="about.html">Tentang</a><a href="contact.html">Kontak</a></div>
+        <div class="footer__col"><h4>Bantuan</h4><a href="#">FAQ</a><a href="#">Return</a></div>
+      </div>
+    </div>
+    <div class="footer__bottom"><div class="container"><p>© 2026 UrbanDrop. Dibuat dengan ❤️ oleh Tim 5.</p></div></div>
+  </footer>
+
+  <!-- Cart Sidebar (NAOMI) -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-sidebar__header"><h3>Keranjang</h3><button class="cart-close" id="cartClose">✕</button></div>
+    <div class="cart-sidebar__body" id="cartBody"></div>
+    <div class="cart-sidebar__footer" id="cartFooter"></div>
+  </aside>
+  <div class="toast" id="toast"></div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/navbar.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/catalog.js"></script>
+
+  <!-- ═══ PRODUCT DETAIL LOGIC — RIMA ═══ -->
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Ambil ID produk dari URL
+    const params    = new URLSearchParams(window.location.search);
+    const productId = parseInt(params.get('id'));
+    const product   = window.PRODUCTS?.find(p => p.id === productId);
+
+    if (!product) {
+      document.querySelector('.detail-layout').innerHTML = `
+        <div class="empty-state" style="grid-column:1/-1;padding:80px 0">
+          <div class="empty-state__icon">😕</div>
+          <h3>Produk tidak ditemukan</h3>
+          <p>Produk mungkin sudah tidak tersedia</p>
+          <a href="catalog.html" class="btn btn--primary">Kembali ke Katalog</a>
+        </div>`;
+      return;
+    }
+
+    // ── Isi semua elemen dengan data produk ──
+    document.title = `${product.name} — UrbanDrop`;
+    document.getElementById('breadcrumbName').textContent = product.name;
+    document.getElementById('productCat').textContent     = product.category.charAt(0).toUpperCase() + product.category.slice(1);
+    document.getElementById('productName').textContent    = product.name;
+    document.getElementById('productStars').textContent   = renderStars(product.rating);
+    document.getElementById('productRating').textContent  = product.rating;
+    document.getElementById('productReviews').textContent = `(${product.reviewCount} ulasan)`;
+    document.getElementById('reviewCount').textContent    = product.reviewCount;
+    document.getElementById('productPrice').textContent   = formatRupiah(product.price);
+    document.getElementById('productDesc').textContent    = product.description;
+    document.getElementById('tabDesc').textContent        = product.description;
+    document.getElementById('mainEmoji').textContent      = product.emoji;
+
+    // Original price & discount
+    if (product.discount > 0) {
+      document.getElementById('productOriginal').textContent  = formatRupiah(product.originalPrice);
+      document.getElementById('productOriginal').style.display = 'inline';
+      document.getElementById('productDiscount').textContent  = `-${product.discount}%`;
+      document.getElementById('productDiscount').style.display = 'inline';
+    }
+
+    // Badge
+    const badgesEl  = document.getElementById('galleryBadges');
+    const badgeMap  = { sale: 'badge--sale', new: 'badge--new', hit: 'badge--hit' };
+    const badgeTxt  = { sale: 'Sale', new: 'Baru', hit: 'Hits' };
+    if (product.badge) {
+      badgesEl.innerHTML = `<span class="badge ${badgeMap[product.badge]}">${badgeTxt[product.badge]}</span>`;
+    }
+
+    // Stock
+    const stockEl = document.getElementById('stockIndicator');
+    const stockTxt = document.getElementById('stockText');
+    if (product.stock <= 10) {
+      stockEl.classList.add('low');
+      stockEl.querySelector('.stock-dot').style.background = 'var(--accent-2)';
+      stockTxt.textContent = `Stok hampir habis! Sisa ${product.stock} buah`;
+    } else {
+      stockTxt.textContent = `Stok tersedia (${product.stock} buah)`;
+    }
+
+    // Gallery thumbs (gunakan emoji untuk placeholder)
+    const thumbEmojis = [product.emoji, product.emoji, product.emoji, product.emoji];
+    document.getElementById('galleryThumbs').innerHTML = thumbEmojis.map((e, i) => `
+      <div class="gallery__thumb ${i === 0 ? 'active' : ''}" data-idx="${i}">${e}</div>
+    `).join('');
+    document.querySelectorAll('.gallery__thumb').forEach(th => {
+      th.addEventListener('click', () => {
+        document.querySelectorAll('.gallery__thumb').forEach(t => t.classList.remove('active'));
+        th.classList.add('active');
+        document.getElementById('mainEmoji').textContent = th.textContent;
+      });
+    });
+
+    // ── Warna ──
+    const colorSel = document.getElementById('colorSelector');
+    if (product.colors?.length) {
+      colorSel.innerHTML = product.colors.map((c, i) => `
+        <div class="color-swatch ${i === 0 ? 'active' : ''}" 
+             style="background:${c}" 
+             data-color="${c}" 
+             title="${c}"></div>
+      `).join('');
+      document.getElementById('selectedColor').textContent = product.colors[0];
+      colorSel.querySelectorAll('.color-swatch').forEach(sw => {
+        sw.addEventListener('click', () => {
+          colorSel.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+          sw.classList.add('active');
+          document.getElementById('selectedColor').textContent = sw.dataset.color;
+        });
+      });
+    }
+
+    // ── Ukuran ──
+    const sizeSel = document.getElementById('sizeSelector');
+    let selectedSize = product.sizes?.[0] || 'One Size';
+    if (product.sizes?.length) {
+      sizeSel.innerHTML = product.sizes.map((s, i) => `
+        <button class="size-btn ${i === 0 ? 'active' : ''}" data-size="${s}">${s}</button>
+      `).join('');
+      document.getElementById('selectedSize').textContent = selectedSize;
+      sizeSel.querySelectorAll('.size-btn').forEach(btn => {
+        if (!btn.classList.contains('out')) {
+          btn.addEventListener('click', () => {
+            sizeSel.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedSize = btn.dataset.size;
+            document.getElementById('selectedSize').textContent = selectedSize;
+          });
+        }
+      });
+    }
+
+    // ── Qty ──
+    let qty = 1;
+    document.getElementById('qtyDec').addEventListener('click', () => {
+      qty = Math.max(1, qty - 1);
+      document.getElementById('detailQty').textContent = qty;
+    });
+    document.getElementById('qtyInc').addEventListener('click', () => {
+      qty = Math.min(10, qty + 1);
+      document.getElementById('detailQty').textContent = qty;
+    });
+
+    // ── Add to Cart ──
+    document.getElementById('addToCartBtn').addEventListener('click', () => {
+      for (let i = 0; i < qty; i++) addToCart(product, selectedSize);
+      showToast(`✅ ${product.name} (×${qty}) ditambahkan!`);
+      const badge = document.getElementById('cartBadge');
+      badge?.classList.add('pop');
+      setTimeout(() => badge?.classList.remove('pop'), 300);
+      openCart();
+    });
+
+    // ── Wishlist ──
+    const wishBtn = document.getElementById('wishlistBtn');
+    const wishTxt = document.getElementById('wishlistText');
+    let wishlist  = getFromStorage('ud_wishlist', []);
+    if (wishlist.includes(product.id)) {
+      wishBtn.classList.add('active');
+      wishBtn.querySelector('.heart').textContent = '♥';
+      wishTxt.textContent = 'Sudah di Wishlist';
+    }
+    wishBtn.addEventListener('click', () => {
+      wishlist = getFromStorage('ud_wishlist', []);
+      if (wishlist.includes(product.id)) {
+        wishlist = wishlist.filter(id => id !== product.id);
+        wishBtn.classList.remove('active');
+        wishBtn.querySelector('.heart').textContent = '♡';
+        wishTxt.textContent = 'Tambah ke Wishlist';
+        showToast('Dihapus dari Wishlist');
+      } else {
+        wishlist.push(product.id);
+        wishBtn.classList.add('active');
+        wishBtn.querySelector('.heart').textContent = '♥';
+        wishTxt.textContent = 'Sudah di Wishlist';
+        showToast('❤️ Ditambahkan ke Wishlist!');
+      }
+      saveToStorage('ud_wishlist', wishlist);
+    });
+
+    // ── Tabs ──
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab)?.classList.add('active');
+      });
+    });
+
+    // ── Tab Deskripsi Features ──
+    const featuresList = [
+      `Bahan premium, nyaman dipakai seharian`,
+      `Jahitan rapi dan kuat`,
+      `Warna tidak mudah pudar`,
+      `Tersedia dalam berbagai ukuran dan warna`,
+      `Cocok untuk berbagai acara dan aktivitas`
+    ];
+    document.getElementById('tabFeatures').innerHTML = featuresList.map(f => `
+      <li style="display:flex;align-items:flex-start;gap:10px;font-size:15px;color:var(--muted)">
+        <span style="color:var(--green);font-weight:700;flex-shrink:0">✓</span>${f}
+      </li>`).join('');
+
+    // ── Tab Ulasan (dari data global) ──
+    const relatedReviews = window.TESTIMONIALS?.slice(0, 3) || [];
+    document.getElementById('reviewsContainer').innerHTML = relatedReviews.map(t => `
+      <div style="padding:24px 0;border-bottom:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+          <div style="width:40px;height:40px;border-radius:50%;background:${t.avatarColor};color:${t.textColor};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0">${t.initials}</div>
+          <div>
+            <p style="font-weight:600;font-size:14px">${t.name}</p>
+            <div style="color:var(--gold);font-size:13px">${'★'.repeat(t.rating)}</div>
+          </div>
+        </div>
+        <p style="font-size:15px;color:var(--muted);line-height:1.7;font-style:italic">"${t.text}"</p>
+      </div>
+    `).join('');
+
+    // ── Related Products ──
+    const related = window.PRODUCTS
+      ?.filter(p => p.id !== product.id && p.category === product.category)
+      .slice(0, 4);
+    if (related?.length) {
+      renderProductGrid(related, document.getElementById('relatedGrid'));
+    } else {
+      const fallback = window.PRODUCTS?.filter(p => p.id !== product.id).slice(0, 4);
+      if (fallback) renderProductGrid(fallback, document.getElementById('relatedGrid'));
+    }
+
+    initScrollAnimations();
+  });
+  </script>
+</body>
+</html>
