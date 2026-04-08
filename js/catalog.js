@@ -11,7 +11,11 @@ function renderProductCard(product) {
     <div class="product-card" data-id="${product.id}" data-animate>
       <div class="product-card__img-wrap">
         ${product.badge ? `<div class="product-card__badges">${badgeMap[product.badge] || ''}</div>` : ''}
-        <div class="product-card__img-placeholder">${product.emoji}</div>
+        ${product.image
+          ? `<img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+             <div class="product-card__img-placeholder" style="display:none">${product.emoji}</div>`
+          : `<div class="product-card__img-placeholder">${product.emoji}</div>`
+        }
         <button class="product-card__wish" data-id="${product.id}" aria-label="Wishlist" title="Tambah Wishlist">
           ♡
         </button>
@@ -19,7 +23,7 @@ function renderProductCard(product) {
           <button class="btn btn--white btn--sm add-to-cart-btn" data-id="${product.id}">
             + Keranjang
           </button>
-          <a href="pages/product.html?id=${product.id}" class="btn btn--primary btn--sm">
+          <a href="product.html?id=${product.id}" class="btn btn--primary btn--sm">
             Lihat
           </a>
         </div>
